@@ -35,18 +35,21 @@ def convert_drawer_model(model):
         class_name = config.get("class_name", False)
         class_config = config.get("config", False)
         if class_name and class_config:
-            class_obj = is_class_object(class_name)
-            if class_name == "Conv2D":
-                conv_2d = get_conv2d_obj(class_obj, class_config)
-                figure.add(conv_2d)
-            elif class_name == "MaxPooling2D":
-                max_pooling_2d = get_maxpooling2d_obj(class_obj, class_config)
-                figure.add(max_pooling_2d)
-            elif class_name == "Dense":
-                dense = get_dense_obj(class_obj, class_config)
-                figure.add(dense)
-            else:
-                figure.add(class_obj())
+            try:
+                class_obj = is_class_object(class_name)
+                if class_name == "Conv2D":
+                    conv_2d = get_conv2d_obj(class_obj, class_config)
+                    figure.add(conv_2d)
+                elif class_name == "MaxPooling2D":
+                    max_pooling_2d = get_maxpooling2d_obj(class_obj, class_config)
+                    figure.add(max_pooling_2d)
+                elif class_name == "Dense":
+                    dense = get_dense_obj(class_obj, class_config)
+                    figure.add(dense)
+                else:
+                    figure.add(class_obj())
+            except:
+                print(class_name + 'is not defined layer. Skip this layer')
         else:
             raise ValueError
 
